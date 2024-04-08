@@ -1,32 +1,41 @@
-
 /**********************************************************************************
  * 
- * Interfacing Arduino MEGA board with KS0108 Monochrome GLCD.
- * This example is for KS0108 GLCD modules with 192x64 Pixel resolution (three CS pins).
+ * Interfacing Arduino MEGA board with KS0108 Monochrome gLCD using 74LS164 shift register for DB0-7 pins
+ * This example is for KS0108 gLCD modules with 64x64 (one CS pin), 128x64 (two CS pins), and 192x64 Pixel resolution (three CS pins).
  * This is a free software with NO WARRANTY - Use it at your own risk!
  * https://simple-circuit.com/
  *
 ***********************************************************************************
- Written by Limor Fried/Ladyada for Adafruit Industries,
+ Modified by Coleton Moore/Synergyst.
+ Original code written by Limor Fried/Ladyada for Adafruit Industries,
  with contributions from the open source community.
  BSD license, check license.txt for more information
  All text above, and the splash screen below must be
  included in any redistribution.
 ************************************************************************************
-* Modified to work with KS0108 monochrome GLCD. More information including circuit
+* Modified to work with KS0108 monochrome gLCD. More information including circuit
 *   diagram on:
 * https://simple-circuit.com/
 * 
  **********************************************************************************/
 
+//#include <WiFiNINA.h> // Testing on Arduino RP2040 Nano Connect
 #include <Adafruit_GFX.h>   // include adafruit GFX library
-#include <KS0108_GLCD.h>    // include KS0108 GLCD library
+#include "KS0108_GLCD_ShiftReg.h"    // include KS0108 gLCD library
 
+#define EN    30
+#define DI_RS 32
+#define CS1   34
+#define CS2   36
+#define CS3   38
+#define RST   40
+#define SHD   42
+#define SHC   44
 
-// KS0108 GLCD library initialization according to the following connection:
-// KS0108_GLCD(DI, RW, E, DB0, DB1, DB2, DB3, DB4, DB5, DB6, DB7, CS1, CS2, CS3, RES);
-KS0108_GLCD display = KS0108_GLCD(A0, A1, A2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
-
+// KS0108 gLCD library initialization according to the following connection:
+KS0108_GLCD_ShiftReg display = KS0108_GLCD_ShiftReg(EN, DI_RS, CS1, RST, SHD, SHC); // one chip
+//KS0108_GLCD_ShiftReg display = KS0108_GLCD_ShiftReg(EN, DI_RS, CS1, CS2, RST, SHD, SHC); // two chip
+//KS0108_GLCD_ShiftReg display = KS0108_GLCD_ShiftReg(EN, DI_RS, CS1, CS2, CS3, RST, SHD, SHC); // three chip
 
 #define NUMFLAKES     10 // Number of snowflakes in the animation example
 
@@ -48,14 +57,17 @@ static const unsigned char PROGMEM logo_bmp[] =
   0b00111111, 0b11110000,
   0b01111100, 0b11110000,
   0b01110000, 0b01110000,
-  0b00000000, 0b00110000 };
+  0b00000000, 0b00110000
+};
 
-void setup()   {                
+void setup()   {
   Serial.begin(9600);
+  delay(2000);
+  Serial.println("Starting..");
 
-  // initialize KS0108 GLCD module with active low CS pins
-  if ( display.begin(KS0108_CS_ACTIVE_LOW) == false ) {
-    Serial.println( F("display initialization failed!") );    // lack of RAM space
+  // initialize KS0108 gLCD module with active low CS pins
+  if (display.begin(KS0108_CS_ACTIVE_LOW) == false) {
+    Serial.println(F("display initialization failed!"));    // lack of RAM space
     while(true);  // stay here forever!
   }
 
@@ -117,7 +129,6 @@ void setup()   {
 
 // main loop (nothing here!)
 void loop() {
-
 }
 
 void testdrawline() {
