@@ -8,7 +8,9 @@
 *
 ***********************************************************************************/
 
-#ifndef KS0108_NO_SPLASH
+// Not used in modified library, though included for license reasons
+
+/*#ifndef KS0108_NO_SPLASH
 
 // splash screen binary data
 #define splash_width  116
@@ -45,4 +47,4 @@ const uint8_t PROGMEM splash_data[] = {
 0x00, 0x00, 0x00
 };
 
-#endif
+#endif*/

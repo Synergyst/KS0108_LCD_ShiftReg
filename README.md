@@ -1,11 +1,18 @@
-# KS0108_LCD
-Arduino library for KS0108 controller based monochrome LCD
+# KS0108_GLCD_ShiftReg
+Arduino library for KS0108 controller based monochrome gLCD using 74LS164 shift register for data-bus control
 
-This is a library for KS0108 monochrome Graphics Liquid Crystal Display.
-This library works with GLCD modules with 2 or 3 KS0108 chips. A GLCD module with two KS0108 chips (2 CS pins) resolution is 128x64 pixel,
-and a three-chip module (3 CS pins) resolution is 192x64 pixel.
-This type of display uses parallel interface to communicate with master device and requires*   14 or 15 GPIO pins mainly depending on the
-resolution of the display (# of KS0108 chips).
+This is a library for controlling KS0108-based monochrome Graphics Liquid Crystal Displays (gLCD) using a 74LS164 shift register.
+This library works with gLCD modules with 1, 2, or 3 KS0108 chips.
+A gLCD module with one-chip KS0108 modules (1 CS pin) the resolution is 64x64 pixel,
+with two-chip KS0108 modules (2 CS pins) the resolution is 128x64 pixels,
+and a three-chip module (3 CS pins) the resolution is 192x64 pixels.
+This type of display normally uses parallel interface to communicate with the MCU,
+though when using a 74LS164 shift register it only requires up to 8 GPIO pins (when using a 3-chip module)
+depending on the resolution of the display (less than three KS0108 chip-select pins requires less I/O pins).
+
+Forked from:
+
+
 Website URL:
 https://simple-circuit.com/
 
